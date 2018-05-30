@@ -21,19 +21,21 @@ function getUserInfoFail() {
     }
 }
 
-function getUserInfo() {
+export function getUserInfo() {
     return function (dispatch) {
-        dispatch(getUserInfoRequest())
+        dispatch(getUserInfoRequest());
 
         return fetch('http://localhost:4399/api/user.json')
-            .then(res => {
-                return res.json()
-            })
-            .then(json => {
-                dispatch(getUserInfoSuccess(json))
-            })
-            .catch(() => {
-                dispatch(getUserInfoFail())
-            })
+            .then((response => {
+                return response.json()
+            }))
+            .then((json) => {
+                    dispatch(getUserInfoSuccess(json))
+                }
+            ).catch(
+                () => {
+                    dispatch(getUserInfoFail());
+                }
+            )
     }
 }

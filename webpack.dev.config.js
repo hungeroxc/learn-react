@@ -1,14 +1,18 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
     mode: 'development',
+    devtool: 'cheap-module-source-map',
     entry: [
         'react-hot-loader/patch',
         path.join(__dirname, 'src/index.js')
     ],
     output: {
         path: path.join(__dirname, './dist'),
-        filename: 'bundle.js'
+        filename: '[name].[hash].js',
+        chunkFilename: '[name].[hash].js'
     },
     module: {
         rules: [
@@ -16,13 +20,27 @@ module.exports = {
                 test: /\.js$/,
                 use: ['babel-loader?cacheDirectory=true'],
                 include: path.join(__dirname, 'src')
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+                include: path.join(__dirname, 'src')
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192
+                    }
+                }]
             }
         ]
     },
     devServer: {
         contentBase: path.join(__dirname, './dist'),
         historyApiFallback: true,
-        port: 4399
+        port: 5000
     },
     resolve: {
         alias: {
@@ -32,5 +50,11 @@ module.exports = {
             actions: path.join(__dirname, 'src/redux/actions'),
             reducers: path.join(__dirname, 'src/redux/reducers')
         }
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: path.join(__dirname, 'src/index.html')
+        })
+    ]
 }

@@ -5,7 +5,7 @@ import {getUserInfo} from 'actions/userInfo'
 @connect(state => ({userInfo: state.userInfo}), {getUserInfo})
 class UserInfo extends Component {
     render() {
-        console.log(this.props)
+        const {userInfo, isLoading, errorMsg} = this.props.userInfo
         return (
             <div>
                 {
