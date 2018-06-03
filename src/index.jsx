@@ -1,19 +1,9 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
-import Counter from './components/Counter.jsx'
-import {createStore} from 'redux'
-import reducer from './reducer/reducer'
-
-const store = createStore(reducer)
+import store from './store'
 
 const render = () => ReactDOM.render(
-    <Counter
-        value={store.getState()}
-        onIncrement={() => store.dispatch({type: 'INCREMENT'})}
-        onDecrement={() => store.dispatch({type: 'DECREMENT'})}
-    />,
+    <div>123</div>,
     document.querySelector('#app')
 )
 render()
-store.subscribe(render)
-
