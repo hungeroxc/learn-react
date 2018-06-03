@@ -1,1 +1,0 @@
-{"version":3,"file":"home.3a1b549db017a74dc6b5.js","sources":["webpack:///./src/pages/Home/index.js"],"sourcesContent":["import React, {Component} from 'react'\n\nclass Home extends Component {\n    render() {\n        return (\n            <div>\n                this is home~\n            </div>\n        )\n    }\n}\n\nexport default Home\n"],"mappings":"AAAA","sourceRoot":""}

@@ -1,27 +1,24 @@
-import React, {Component} from 'react'
-import ReactDom from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
-import { Provider } from 'react-redux'
-import getRouter from './router'
-import store from './redux/store'
+import { createStore } from 'redux'
 
-renderWithHotReload(getRouter())
-
-if (module.hot) {
-    module.hot.accept('./router/index.js', () => {
-        const getRouter = require('./router/index.js').default
-        renderWithHotReload(getRouter())
-    });
+function counter (state = 0, action) {
+    switch(action.type) {
+        case 'INCREMENT':
+            return state + 1
+        case 'DECREMENT':
+            return state - 1
+        default:
+            return state
+    }
 }
 
-function renderWithHotReload(RootElement) {
-    ReactDom.render(
-        <AppContainer>
-            <Provider store={store}>
-                {RootElement}
-            </Provider>
-        </AppContainer>,
-        document.getElementById('app')
-    )
-}
+let store = createStore(counter)
 
+store.subscribe(() => {
+    console.log(store.getState())
+})
+
+store.dispatch({ type: 'INCREMENT' });
+// 1
+store.dispatch({ type: 'INCREMENT' });
+// 2
+store.dispatch({ type: 'DECREMENT' });
