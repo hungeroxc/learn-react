@@ -1,12 +1,19 @@
-import React, {Component} from 'react'
-import {render} from 'react-dom'
-import { Provider } from 'react-redux'
-import store  from './store'
-import App from './components/App'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Counter from './components/Counter.jsx'
+import reducer from './reducers/reducers'
+import {createStore} from 'redux'
 
-render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+const store = createStore(reducer)
+
+const render = () => ReactDOM.render(
+    <Counter 
+        value={store.getState()}
+        increment={() => store.dispatch({type: 'INCREMENT'})}
+        decrement={() => store.dispatch({type: 'DECREMENT'})}
+    />,
     document.querySelector('#app')
 )
+render()
+
+store.subscribe(render)
