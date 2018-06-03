@@ -7,7 +7,7 @@ module.exports = {
     devtool: 'cheap-module-source-map',
     entry: [
         'react-hot-loader/patch',
-        path.join(__dirname, 'src/index.js')
+        path.join(__dirname, 'src/index.jsx')
     ],
     output: {
         path: path.join(__dirname, './dist'),
@@ -17,7 +17,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.js$|\.jsx$/,
                 use: ['babel-loader?cacheDirectory=true'],
                 include: path.join(__dirname, 'src')
             },
