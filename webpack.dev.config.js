@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const ExtractTextWebapckPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     mode: 'development',
@@ -9,10 +10,25 @@ module.exports = {
         'react-hot-loader/patch',
         path.join(__dirname, 'src/index.js')
     ],
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    // 需要分离的代码所在位置
+                    test: /[\\/]node_modules[\\/]/,
+                    // 打包出来后的文件名
+                    name: 'common',
+                    // 缓存组优先级
+                    priority: 10,
+                    // 缓存方式all | initial | async三选一
+                    chunks: 'all'
+                }
+            }
+        }
+    },
     output: {
         path: path.join(__dirname, './dist'),
-        filename: '[name].[hash].js',
-        chunkFilename: '[name].[hash].js'
+        filename: '[name].[hash].js'
     },
     module: {
         rules: [
@@ -23,8 +39,12 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
-                include: path.join(__dirname, 'src')
+                use: ExtractTextWebapckPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                }),
+                include: path.join(__dirname, 'src'),
+                exclude: /node_modules/
             },
             {
                 test: /\.(png|jpg|gif)$/,
@@ -55,6 +75,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.join(__dirname, 'src/index.html')
-        })
+        }),
+        new CleanWebpackPlugin(['dist']),
+        new ExtractTextWebapckPlugin('css/[name].[hash].css')
     ]
 }
