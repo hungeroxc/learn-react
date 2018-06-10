@@ -1,10 +1,24 @@
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom'
+import App from './App.jsx'
+import store from './store'
+import {increment, decrement} from './store/action'
 
-render(
-    <div>123</div>,
+
+
+
+const render = () => ReactDOM.render(
+    <App 
+        value={store.getState()}
+        onIncrement={store.dispatch(increment)}
+        onDecrement={store.dispatch(decrement)}
+    />,
     document.querySelector('#app')
 )
+store.subscribe(() => {
+    console.log('state change', store.getState())
+})
+store.subscribe(render)
 
 
 
