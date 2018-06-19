@@ -1,2 +1,5 @@
 export const INCREMENT = 'INCREMENT'
 export const DECREMENT = 'DECREMENT'
+export const LOAD_USER = 'LOAD_USER'
+export const LOAD_USER_PENDING = 'LOAD_USER_PENDING'
+export const LOAD_USER_FULFILLED = 'LOAD_USER_FULFILLED'
